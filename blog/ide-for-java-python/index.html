@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Eclipse集成开发环境搭建之Java、Python · Jemoii's Blog</title><meta name="description" content="Eclipse集成开发环境搭建之Java、Python - Jemoii"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://g.hijkl.mn/atom.xml" title="Jemoii's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://github.com/jemoii" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Eclipse集成开发环境搭建之Java、Python</h1><div class="post-info">2014年12月14日</div><div class="post-content"><p>虽然已经学习了一段时间的Java，但是一直是使用<code>Notepad++</code>编辑程序，行命令编译、运行程序，还没有使用过IDE（集成开发环境）。</p>
+<h4 id="这里就以Eclipse为例，说明Java集成开发环境的搭建。"><a href="#这里就以Eclipse为例，说明Java集成开发环境的搭建。" class="headerlink" title="这里就以Eclipse为例，说明Java集成开发环境的搭建。"></a>这里就以Eclipse为例，说明Java集成开发环境的搭建。</h4><ul>
+<li><p>第一步，下载安装JDK，配置环境变量，这里就不多重复了。需要提到的是，JDK、Eclipse要同为Windows 32位或Windows 64位，这里选择的均为<code>64</code>位；</p>
+</li>
+<li><p>第二步，下载Eclipse。到Eclipse下载页面<a href="http://www.eclipse.org/downloads/" target="_blank" rel="external">http://www.eclipse.org/downloads/</a>选择合适的版本，这里选择的是<code>Eclipse IDE for Java EE Developers</code>，Windows 64位版本，按提示下载压缩包<code>eclipse-jee-luna-SR1-win32-x86_64.zip</code>。</p>
+</li>
+<li><p>第三步，安装Eclipse。直接解压下载的压缩包到相应目录，这里解压到<code>C:\Program Files\Eclipse\</code>。现在点击运行目录下的<code>eclipse.exe</code>，会提示<strong><em>No Java virtual machine was found after searching the following locations:…</em></strong>，根据提示需要配置环境变量，在Path中添加<code>javaw.exe</code>的路径，这里是：<code>C:\Program Files\Java\jre1.8.0_25\bin</code>。再次运行<code>eclipse.exe</code>，如果JDK、Eclipse不是同为32位或64位，还会提示<strong><em>Failed to load the JNI shared library…</em></strong>。到这里完成Eclipse的安装。</p>
+</li>
+<li><p>第四步，Eclipse中的Hello， world！Eclipse中的<code>Welcome\Tutorials</code>页面会指导如何<code>Create a Hello World application</code>。这里就不重复了。</p>
+</li>
+</ul>
+<h4 id="除此之外，还要说一说Eclipse中插件的离线安装"><a href="#除此之外，还要说一说Eclipse中插件的离线安装" class="headerlink" title="除此之外，还要说一说Eclipse中插件的离线安装"></a>除此之外，还要说一说Eclipse中插件的离线安装</h4><h5 id="用于Python开发的插件：PyDev"><a href="#用于Python开发的插件：PyDev" class="headerlink" title="用于Python开发的插件：PyDev"></a>用于Python开发的插件：PyDev</h5><p>接触Python语言源于<a href="http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000" target="_blank" rel="external">Python教程 – 廖雪峰的官方网站</a>，尤其感叹其简洁性。</p>
+<ul>
+<li>第一步，下载、安装Python。到Python下载页面<a href="https://www.python.org/downloads/" target="_blank" rel="external">https://www.python.org/downloads/</a>选择2.x或3.x版本下载。这里选择的是<code>python-2.7.8</code>。运行下载的安装包，这里是<code>python-2.7.8.amd64.msi</code>。稍后配置环境变量，在Path中添加<code>python.exe</code>的路径，这里是<code>C:\Python27</code>。在命令行验证安装：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">python</div><div class="line">Python 2.7.8 (default, Jun 30 2014, 16:08:48) [MSC v.1500 64 bit (AMD64)] on win32</div><div class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</div><div class="line">&gt;&gt;&gt;</div></pre></td></tr></table></figure>
+<p>到这里，使用<code>命令行</code>也可以完成Python程序的编译、运行</p>
+<p><code>C:\Pycode</code>目录下<code>helloworld.py</code>的内容为：</p>
+<blockquote>
+<p>   print ‘Hello, world!’</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;<span class="keyword">print</span> <span class="string">'Hello, world!'</span></div><div class="line">Hello, world!</div><div class="line">&gt;&gt;&gt;exit()</div><div class="line"></div><div class="line">cd C:\Pycode</div><div class="line">python helloworld.py</div><div class="line">Hello, world!</div></pre></td></tr></table></figure>
+<ul>
+<li><p>第二步，下载PyDev插件。到PyDev下载页面<a href="http://sourceforge.net/projects/pydev/files/" target="_blank" rel="external">http://sourceforge.net/projects/pydev/files/</a>下载插件压缩包，这里是<code>PyDev 3.9.0.zip</code>。</p>
+</li>
+<li><p>第三步，安装PyDev插件。将下载的压缩包放在Eclipse目录下，打开Eclipse，选择Help &gt; Install New Software…，点击Add，Name：”PyDev”，点击Archives…选择压缩包路径，点击OK。会提示<strong><em>No software site found at jar…</em></strong>。解决的方法：</p>
+<blockquote>
+<p>   将压缩包解压得到的features和plugins文件夹放到Eclipse\dropins根目录下。<a href="http://www.mincoder.com/article/3547.shtml" target="_blank" rel="external">http://www.mincoder.com/article/3547.shtml</a></p>
+</blockquote>
+</li>
+<li><p>第四步，配置PyDev插件。重启Eclipse后，</p>
+<ul>
+<li>选择Window &gt; Preferences &gt; PyDev &gt; Interpreters &gt; Python Interpreters，</li>
+<li>点击New…，Interpreter，Name：”Python”，</li>
+<li>点击Browse…，添加<code>Python解释器</code>的路径，安装Python-2.7.8后即获得解释器：<code>CPython</code>，所以即选择<code>python.exe</code>的路径。</li>
+</ul>
+</li>
+<li><p>第五步，Eclipse中的Python程序示例。</p>
+<ul>
+<li>选择Window &gt; Open Perspective &gt; PyDev，</li>
+<li>选择File &gt; New &gt; PyDev Project，<code>Project name</code>：HelloWorld，</li>
+<li>单选Create ‘src’ folder and add it to the PYTHONPATH，点击Finish。</li>
+<li>右击左侧HelloWorld下的src &gt; New &gt; Pydev Module，<code>Name</code>:HelloWorld，点击Finish，</li>
+<li><p>在弹出的Template窗口中选择<code>&lt;Empty&gt;</code>，点击OK。</p>
+<blockquote>
+<p>print ‘Hello, world!’</p>
+</blockquote>
+</li>
+<li><p>选择<code>Run as Python Run</code>，可以看到<code>Console</code>窗口中的运行结果。</p>
+</li>
+</ul>
+</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/blog/connecting-disconnecting/" class="prev">上一篇</a><a href="/blog/binary-search-tree/" class="next">下一篇</a></div><div class="copyright"><p>© 2014 - 2017 <a href="https://g.hijkl.mn">Jemoii</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

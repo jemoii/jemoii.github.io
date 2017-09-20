@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Maven安装、构建项目 · Jemoii's Blog</title><meta name="description" content="Maven安装、构建项目 - Jemoii"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://g.hijkl.mn/atom.xml" title="Jemoii's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://github.com/jemoii" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Maven安装、构建项目</h1><div class="post-info">2015年3月24日</div><div class="post-content"><div id="content"><br><a href="#install_maven">1.    安装Maven</a><br><br><a href="#install_m2eclipse">2.    安装Eclipse插件M2Eclipse</a><br><br><a href="#new_maven_project">3.    创建Maven Project</a><br></div>
+
+
+<p><strong><em>本文没有过多的原理性分析，主要关注结果的实现。</em></strong></p>
+<h4 id="1、安装Maven"><a href="#1、安装Maven" class="headerlink" title="1、安装Maven ^"></a><div id="install_maven">1、安装Maven <a href="#content">^</a></div></h4><p>在Maven镜像站点 <a href="http://maven.apache.org/download.cgi?Preferred=http://mirrors.hust.edu.cn/apache/" target="_blank" rel="external">http://maven.apache.org/download.cgi?Preferred=http://mirrors.hust.edu.cn/apache/</a> 下载<code>apache-maven-3.1.1-bin.zip</code>。</p>
+<p>这里没有选择较新的版本，因为Maven与Eclipse存在兼容性问题，</p>
+<blockquote>
+<p>-Dmaven.multiModuleProjectDirectory system propery is not set. Check $M2_HOME environment variable and mvn script match.</p>
+</blockquote>
+<p>解压缩apache-maven-3.1.1-bin.zip至<code>C:\Program Files\Maven\</code>，在环境变量<code>Path</code>中添加<code>C:\Program Files\Maven\apache-maven-3.1.1\bin</code>。</p>
+<p>使用行命令验证安装成功，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mvn --version</div><div class="line"></div><div class="line">Apache Maven 3.1.1</div><div class="line">Maven home: C:\Program Files\Maven\apache-maven-3.1.1</div><div class="line">Java version: 1.8.0_25, vendor: Oracle Corporation</div><div class="line">Java home: C:\Program Files\Java\jdk1.8.0_25\jre</div><div class="line">//////</div></pre></td></tr></table></figure>
+<h4 id="2、安装Eclipse插件M2Eclipse"><a href="#2、安装Eclipse插件M2Eclipse" class="headerlink" title="2、安装Eclipse插件M2Eclipse ^"></a><div id="install_m2eclipse">2、安装Eclipse插件M2Eclipse <a href="#content">^</a></div></h4><p>插件<code>M2Eclipse</code>不提供离线下载，安装链接为<code>http://download.eclipse.org/technology/m2e/releases</code>，开始插件的下载、安装。</p>
+<p>安装完成，重启Eclipse，配置插件M2Eclipse：</p>
+<ul>
+<li><p>选择Window-&gt;Preferences-&gt;Installations，点击Add…，在Installation home中填：写<code>C:\Program Files\Maven\apache-maven-3.1.1</code>；</p>
+</li>
+<li><p>选择-&gt;User Settings，填写Global Settings为：<code>C:\Program Files\Maven\apache-maven-3.1.1\conf\settings.xml</code>。</p>
+</li>
+</ul>
+<h4 id="3、创建Maven-Project"><a href="#3、创建Maven-Project" class="headerlink" title="3、创建Maven Project ^"></a><div id="new_maven_project">3、创建Maven Project <a href="#content">^</a></div></h4><p>采用默认设置，在Catalog栏选择<code>All Catalogs</code>;</p>
+<p><img src="https://moetu.fastmirror.org/images/2017/09/20/baenew_maven_projectf84c297be7f476bf.jpg" alt="New Maven Project"></p>
+<ul>
+<li>groupId：项目名称，如<code>org.apache.maven.plugins</code>，</li>
+<li>artifactId：主文件名称，项目生成的jar包一般为<code>artifactId-version.jar</code>，</li>
+<li>version：版本信息</li>
+</ul>
+<p><img src="https://moetu.fastmirror.org/images/2017/09/20/baegroupID_artifactID37a8307e17b43745.jpg" alt="Group ID Artifact ID"></p>
+<p>Maven Project的文件结构：</p>
+<ul>
+<li>src/main/java：项目源代码</li>
+<li>src/test/java：测试源代码</li>
+<li>target：目标文件夹，存放构建的文件</li>
+<li>这里略去对<code>pom.xml</code>的分析、介绍</li>
+</ul>
+<p><img src="https://moetu.fastmirror.org/images/2017/09/20/baemaven_project_structured81d804b0789d531.jpg" alt="Structure"></p>
+<p>创建的Maven Project已包含生成<code>Hello world</code>的代码。</p>
+<p>右键选择Run As-&gt;Maven build…，在Goals中填写<code>clean package</code>，点击Run，</p>
+<p>上述操作相当于执行行命令：</p>
+<pre><code>mvn clean package
+</code></pre><ul>
+<li>clean: 清理先前构建的文件，</li>
+<li>package: 编译源代码，生成jar包</li>
+</ul>
+<p>第一次使用，需要等待Maven从远程库下载依赖包。</p>
+<p>执行完成后可以看到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[INFO] Building jar: C:\Users\workspace\Demo\target\Demo-0.0.1-SNAPSHOT.jar</div><div class="line">[INFO] ------------------------------------------------------------------------</div><div class="line">[INFO] BUILD SUCCESS</div><div class="line">[INFO] ------------------------------------------------------------------------</div><div class="line">[INFO] Total time: 31.329s</div><div class="line">[INFO] Finished at: Tue Mar 24 19:36:18 CST 2015</div><div class="line">[INFO] Final Memory: 14M/125M</div><div class="line">[INFO] ------------------------------------------------------------------------</div></pre></td></tr></table></figure>
+<p>target目录下生成jar包，<code>MyApp-0.0.1-SNAPSHOT.jar</code>，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">java -cp target/MyApp-1.0-SNAPSHOT.jar me.maven.demo.MyApp.App</div><div class="line">Hello World!</div></pre></td></tr></table></figure>
+<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a href="http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html" target="_blank" rel="external">Maven in 5 Minutes</a></p>
+<p><a href="http://www.oracle.com/technetwork/cn/community/java/apache-maven-getting-started-1-406235-zhs.html" target="_blank" rel="external">Apache Maven 入门篇 ( 上 )</a></p>
+<p><a href="http://www.reddit.com/r/java/comments/2zioib/maven_331/" target="_blank" rel="external">Maven 3.3.1 : java</a></p>
+</div></article></div></main><footer><div class="paginator"><a href="/blog/repackage-to-jar-war/" class="prev">上一篇</a><a href="/blog/qunar-2015-spring-test3/" class="next">下一篇</a></div><div class="copyright"><p>© 2014 - 2017 <a href="https://g.hijkl.mn">Jemoii</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
