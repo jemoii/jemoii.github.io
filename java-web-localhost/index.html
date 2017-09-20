@@ -1,0 +1,180 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title>  · Jemoii's Blog</title><meta name="description" content=" - Jemoii"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://g.hijkl.mn/atom.xml" title="Jemoii's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://github.com/jemoii" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title"></h1><div class="post-info">2014年12月24日</div><div class="post-content"><hr>
+<p>layout: post<br>title: Java Web应用本地运行、调试<br>date: 2014-12-24 15:25<br>comments: false<br>categories: [Java, Web]</p>
+<hr>
+<p><a href="http://jemoii.github.io/blog/java-tomcat-platform/" target="_blank" rel="external">上一篇</a>完成Java Web开发平台的搭建，现在可以开始在本地编写代码。</p>
+<p>###2.1 开发环境的搭建</p>
+<p>本地开发环境的搭建可以参考<a href="http://jingyan.baidu.com/article/870c6fc33e62bcb03fe4be90.html" target="_blank" rel="external">Tomcat安装及配置教程</a>。</p>
+<p>###2.2 编写代码</p>
+<p>####2.2.1</p>
+<p>这里使用的是Head First Servlets &amp; JSP 第三章中的示例代码。</p>
+<p>进入Window—&gt;Open Perspective，选择“Java EE”。</p>
+<p>新建Dynamic Web Project，填写Project name为：Beer。</p>
+<ul>
+<li>在src目录下新建类</li>
+</ul>
+<p><img src="https://moetu.fastmirror.org/images/2017/09/20/baenew_class_howd9c32636ca09273f.jpg" alt="新建类1"></p>
+<ul>
+<li>包名为：com.example.model，类名为：BeerExpert</li>
+</ul>
+<p><img src="https://moetu.fastmirror.org/images/2017/09/20/baenew_class_whatb80146b81d0efc60.jpg" alt="新建类2"></p>
+<ul>
+<li>代码如下：</li>
+</ul>
+<pre><code class="java"><span class="keyword">package</span> com.example.model;
+
+<span class="keyword">import</span> java.util.*;
+
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeerExpert</span></span>{
+    <span class="function"><span class="keyword">public</span> List <span class="title">getBrands</span><span class="params">(String color)</span></span>{
+
+        List&lt;String&gt; brands = <span class="keyword">new</span> ArrayList&lt;String&gt;();
+        <span class="keyword">if</span>(color.equals(<span class="string">"amber"</span>)){
+            brands.add(<span class="string">"Jack Amber"</span>);
+            brands.add(<span class="string">"Red Moose"</span>);
+        }
+        <span class="keyword">else</span>{
+            brands.add(<span class="string">"Jail Pale Ale"</span>);
+            brands.add(<span class="string">"Gout Stout"</span>);
+        }
+        <span class="keyword">return</span> brands;
+    }
+}
+</code></pre>
+<ul>
+<li><p>同样在src目录下新建类，包名为：com.example.web，类名为：BeerSelect。</p>
+</li>
+<li><p>代码如下：</p>
+</li>
+</ul>
+<pre><code class="java"><span class="keyword">package</span> com.example.web;
+
+<span class="keyword">import</span> com.example.model.*;
+<span class="keyword">import</span> javax.servlet.*;
+<span class="keyword">import</span> javax.servlet.http.*;
+<span class="keyword">import</span> java.io.*;
+<span class="keyword">import</span> java.util.*;
+
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeerSelect</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span></span>{
+    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> </span>
+<span class="function">                                <span class="keyword">throws</span> IOException, ServletException</span>{
+
+        String c = request.getParameter(<span class="string">"color"</span>);
+        BeerExpert be = <span class="keyword">new</span> BeerExpert();
+        List result = be.getBrands(c);
+
+        request.setAttribute(<span class="string">"styles"</span>, result);
+        RequestDispatcher view = request.getRequestDispatcher(<span class="string">"result.jsp"</span>);
+        view.forward(request, response);
+    }
+}
+</code></pre>
+<ul>
+<li>类似地在WebContent目录下新建HTML，文件名为：form。</li>
+<li>代码如下：</li>
+</ul>
+<pre><code class="html"><span class="meta">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;<span class="name">html</span>&gt;</span>
+<span class="tag">&lt;<span class="name">head</span>&gt;</span>
+<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span>
+<span class="tag">&lt;<span class="name">title</span>&gt;</span>Beer<span class="tag">&lt;/<span class="name">title</span>&gt;</span>
+<span class="tag">&lt;/<span class="name">head</span>&gt;</span>
+<span class="tag">&lt;<span class="name">body</span>&gt;</span>
+<span class="tag">&lt;<span class="name">h1</span> <span class="attr">align</span> = <span class="string">"center"</span>&gt;</span>Beer Selection Page<span class="tag">&lt;/<span class="name">h1</span>&gt;</span>
+    <span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span> = <span class="string">"POST"</span></span>
+<span class="tag">        <span class="attr">action</span> = <span class="string">"SelectBeer.do"</span>&gt;</span>
+        Select beer characteristics<span class="tag">&lt;<span class="name">br</span>/&gt;</span>
+        Color:
+        <span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span> = <span class="string">"color"</span> <span class="attr">size</span> = <span class="string">"1"</span>&gt;</span>
+            <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span> = <span class="string">"light"</span>&gt;</span>light<span class="tag">&lt;/<span class="name">option</span>&gt;</span>
+            <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span> = <span class="string">"amber"</span>&gt;</span>amber<span class="tag">&lt;/<span class="name">option</span>&gt;</span>
+            <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span> = <span class="string">"brown"</span>&gt;</span>brown<span class="tag">&lt;/<span class="name">option</span>&gt;</span>
+            <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span> = <span class="string">"dark"</span>&gt;</span>dark<span class="tag">&lt;/<span class="name">option</span>&gt;</span>
+        <span class="tag">&lt;/<span class="name">select</span>&gt;</span>
+        <span class="tag">&lt;<span class="name">br</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span>
+        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span> = <span class="string">"SUBMIT"</span>&gt;</span>
+    <span class="tag">&lt;/<span class="name">form</span>&gt;</span>
+<span class="tag">&lt;/<span class="name">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="name">html</span>&gt;</span>
+</code></pre>
+<ul>
+<li>类似地在WebContent目录下新建JSP，文件名为：result。</li>
+<li>代码如下：</li>
+</ul>
+<pre><code class="html"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">page</span> <span class="attr">language</span>=<span class="string">"java"</span> <span class="attr">contentType</span>=<span class="string">"text/html; charset=UTF-81"</span> <span class="attr">pageEncoding</span>=<span class="string">"UTF-8"</span> <span class="attr">import</span> = <span class="string">"java.util.*"</span>%&gt;</span>
+<span class="meta">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;</span>
+<span class="tag">&lt;<span class="name">html</span>&gt;</span>
+<span class="tag">&lt;<span class="name">head</span>&gt;</span>
+<span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=UTF-8"</span>&gt;</span>
+<span class="tag">&lt;<span class="name">title</span>&gt;</span>Result<span class="tag">&lt;/<span class="name">title</span>&gt;</span>
+<span class="tag">&lt;/<span class="name">head</span>&gt;</span>
+<span class="tag">&lt;<span class="name">body</span>&gt;</span>
+<span class="tag">&lt;<span class="name">h1</span> <span class="attr">align</span> = <span class="string">"center"</span>&gt;</span>Beer Recommendations JSP<span class="tag">&lt;/<span class="name">h1</span>&gt;</span>
+    <span class="tag">&lt;<span class="name">%</span></span>
+<span class="tag">        <span class="attr">List</span> <span class="attr">styles</span> = <span class="string">(List)request.getAttribute(</span>"<span class="attr">styles</span>");</span>
+<span class="tag">        <span class="attr">Iterator</span> <span class="attr">it</span> = <span class="string">styles.iterator();</span></span>
+<span class="tag">        <span class="attr">while</span>(<span class="attr">it.hasNext</span>()){</span>
+            out.println("&lt;br/&gt;try: " + it.next());
+        }
+    %&gt;
+<span class="tag">&lt;/<span class="name">body</span>&gt;</span>
+<span class="tag">&lt;/<span class="name">html</span>&gt;</span>
+</code></pre>
+<ul>
+<li>类似地在WebContent/WEB-INF目录下新建web.xml。</li>
+<li>代码如下：</li>
+</ul>
+<pre><code class="xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+<span class="tag">&lt;<span class="name">web-app</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> </span>
+<span class="tag">    <span class="attr">xmlns</span>=<span class="string">"http://xmlns.jcp.org/xml/ns/javaee"</span> </span>
+<span class="tag">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"</span> </span>
+<span class="tag">    <span class="attr">id</span>=<span class="string">"WebApp_ID"</span> <span class="attr">version</span>=<span class="string">"3.1"</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="name">display-name</span>&gt;</span>Beer<span class="tag">&lt;/<span class="name">display-name</span>&gt;</span>
+    <span class="tag">&lt;<span class="name">servlet</span>&gt;</span>
+        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>Ch3 Beer<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span>
+        <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>com.example.web.BeerSelect<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span>
+    <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span>
+        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>Ch3 Beer<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span>
+        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/SelectBeer.do<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span>
+    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span>
+
+    <span class="tag">&lt;<span class="name">welcome-file-list</span>&gt;</span>
+        <span class="tag">&lt;<span class="name">welcome-file</span>&gt;</span>form.html<span class="tag">&lt;/<span class="name">welcome-file</span>&gt;</span>
+    <span class="tag">&lt;/<span class="name">welcome-file-list</span>&gt;</span>
+<span class="tag">&lt;/<span class="name">web-app</span>&gt;</span>
+</code></pre>
+<p>####2.2.2</p>
+<p>这里依照web.xml的内容分析一下上述代码。</p>
+<ul>
+<li><p><code>&lt;welcome-file&gt;</code>标签指定form.html文件为初始文件。form中，<code>&lt;select&gt;</code>标签指定了一个下拉列表，包含“beer characteristics——color”，选项经SelectBeer.do提交。</p>
+</li>
+<li><p>综合<code>&lt;servlet&gt;</code>和<code>&lt;servlet-mapping&gt;</code>标签指定SelectBeer.do为com.example.web.BeerSelect。</p>
+</li>
+<li><p>BeerSelect得到提交的参数“color”，传递给BeerExpert中的getBrands()函数，得到相应的返回值result。</p>
+</li>
+<li><p>返回值result经迭代器由JSP页面显示。</p>
+</li>
+</ul>
+<p>###2.3 本地运行测试</p>
+<ul>
+<li>如2.2创建工程Beer后，进入Run As，选择Run on Server。</li>
+</ul>
+<p><img src="https://moetu.fastmirror.org/images/2017/09/20/baerun_as3d2d385614c8d2a6.jpg" alt="运行方式"></p>
+<ul>
+<li>选择本地的Tomcat（若服务器未启动，会提示启动服务器）。</li>
+</ul>
+<p><img src="https://moetu.fastmirror.org/images/2017/09/20/baerun_on_server680eb15b86ac7d95.jpg" alt="选择本地服务器"></p>
+<ul>
+<li>页面显示form.html的内容。</li>
+</ul>
+<p><img src="https://moetu.fastmirror.org/images/2017/09/20/baeform_html2c5f967ed9ca271fe.jpg" alt="form的内容"></p>
+<ul>
+<li>点击“提交”，按钮页面显示result.jsp的内容。</li>
+</ul>
+<p><img src="https://moetu.fastmirror.org/images/2017/09/20/baeresult_jsp2464087ba9defcb1a.jpg" alt="result的内容"></p>
+<ul>
+<li>本地运行测试成功。</li>
+</ul>
+</div></article></div></main><footer><div class="paginator"><a href="/java-tomcat-platform/" class="prev">上一篇</a><a href="/batch-mode/" class="next">下一篇</a></div><div class="copyright"><p>© 2014 - 2017 <a href="https://g.hijkl.mn">Jemoii</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

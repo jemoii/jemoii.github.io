@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Loading Data into a Table · Jemoii's Blog</title><meta name="description" content="Loading Data into a Table - Jemoii"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://g.hijkl.mn/atom.xml" title="Jemoii's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://github.com/jemoii" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Loading Data into a Table</h1><div class="post-info">2014年12月18日</div><div class="post-content"><p>####创建表后,可以使用<code>LOAD DATA</code>和<code>INSERT</code>来导入数据.</p>
+<p>假设你的宠物记录可以如下描述:</p>
+<pre><code>name        owner        species    sex        birth        death
+Fluffy      Harold       cat        f        1993-02-04     
+Claws       Gwen         cat        m        1994-03-17     
+Buffy       Harold       dog        f        1989-05-13     
+Fang        Benny        dog        m        1990-08-27     
+Bowser      Diane        dog        m        1979-08-31     1995-07-29
+Chirpy      Gwen         bird       f        1998-09-11     
+Whistler    Gwen         bird                1997-12-09     
+Slim        Benny        snake      m        1996-04-29     
+</code></pre><p>因为现在你以一个空表开始,一个简单的导入方法是创建一个文本文件,每一行包含一条宠物记录,然后将文本内容导入表中.</p>
+<p>你可以创建一个文本文件<code>pet.txt</code>,每行包含一条记录,行内的不同值用<code>Tab</code>分隔,依照<code>CREATE TABLE</code>命令中的顺序输入这些记录.对于缺省的值,可以使用<code>NULL</code>,在你的文本文件中使用<code>\N</code>表示.例如,对于Whistler的记录,可以像这样输入:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Whistler    Gwen    bird    \N    1997-12-09    \N</div></pre></td></tr></table></figure>
+<p>将文本文件<code>pet.txt</code>导入表<code>pet</code>,使用:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql&gt; LOAD DATA LOCAL INFILE &apos;C:/SQL/pet.txt&apos; INTO TABLE pet;</div></pre></td></tr></table></figure>
+<p>Windows中使用<code>\r\n</code>作为行结束符,所以要换用下面的命令:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; LOAD DATA LOCAL INFILE &apos;/path/pet.txt&apos; INTO TABLE pet</div><div class="line"> -&gt; LINES TERMINATED BY &apos;\r\n&apos;;</div></pre></td></tr></table></figure>
+<p>当你想添加新记录时,<code>INSERT</code>是很有用的,假设Diane新养了一个名为Puffball的hamster.你可以使用<code>INSERT</code>添加一条新纪录:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; INSERT INTO pet</div><div class="line"> -&gt; VALUES (&apos;Puffball&apos;,&apos;Diane&apos;,&apos;hamster&apos;,&apos;f&apos;,&apos;1999-03-30&apos;,NULL);</div></pre></td></tr></table></figure>
+<p>字符串和日期在这里都指定为字符串,对于缺省的值,可以直接插入<code>NULL</code>,不用像<code>LOAD DATA</code>那样使用<code>\N</code>.</p>
+<p>从这个例子可以看出,导入数据时,使用<code>INSERT</code>会比<code>LOAD DATA</code>多一些输入命令调用.</p>
+<p>####英文原文：</p>
+<p><a href="http://dev.mysql.com/doc/refman/5.6/en/loading-tables.html" target="_blank" rel="external">Loading Data into a Table</a></p>
+</div></article></div></main><footer><div class="paginator"><a href="/selecting-information/" class="prev">上一篇</a><a href="/creating-table/" class="next">下一篇</a></div><div class="copyright"><p>© 2014 - 2017 <a href="https://g.hijkl.mn">Jemoii</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

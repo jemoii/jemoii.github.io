@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Using mysql in Batch Mode · Jemoii's Blog</title><meta name="description" content="Using mysql in Batch Mode - Jemoii"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://g.hijkl.mn/atom.xml" title="Jemoii's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://github.com/jemoii" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Using mysql in Batch Mode</h1><div class="post-info">2014年12月21日</div><div class="post-content"><p>前面交互式地运行<code>mysql</code>输入命令,查看结果.你也可以以批处理模式运行<code>mysql</code>,将你想运行的命令存放在文件中,让<code>mysql</code>从该文件读入命令:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">shell&gt; mysql &lt; batch-file</div></pre></td></tr></table></figure>
+<p>如果你在<code>Windows</code>下,文件中的一些字符出现问题,可以这样做:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">C:&gt; mysql -e &quot;source batch-file&quot;</div></pre></td></tr></table></figure>
+<p>如果你需要在命令行中指定连接参数，命令可能像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">shell&gt; mysql -h host -u user -p &lt; batch-file</div><div class="line">Enter password: **</div></pre></td></tr></table></figure>
+<p>当你以这种方式使用<code>mysql</code>,你创建了一个脚本文件,然后执行这个脚本文件.</p>
+<p>如果脚本中的一些命令出现了问题,你还是想让其继续执行,可以使用<code>--force</code>选项.</p>
+<p>使用脚本的原因:</p>
+<ul>
+<li>如果你频繁地运行一个查询,创建脚本可以让你避免每次执行时的重复输入;</li>
+<li>你可以通过编辑脚本文件,用现存的脚本得到新的相似脚本;</li>
+<li>当你运行一个查询,尤其是对于多行命令,批处理模式是很有用的.当你输入错误时,不需要全部重新输入.只需要改正你脚本中的错误,让<code>mysql</code>再次执行;</li>
+<li>如果你有一个产生较多输出的查询,你可以使用:<blockquote>
+<p>shell&gt; mysql &lt; batch-file | more</p>
+</blockquote>
+</li>
+<li>也可以将输出存入文件,等待进一步处理:<blockquote>
+<p>shell&gt; mysql &lt; batch-file &gt; mysql.out</p>
+</blockquote>
+</li>
+<li>你可以向别人分享你的脚本,这样他们也可以运行这些命令;</li>
+<li>一些情形下不允许交互式地运行<code>mysql</code>.</li>
+</ul>
+<p>以批处理模式运行<code>mysql</code>和交互式地运行,默认的输出形式是不同的,例如:</p>
+<p>C:/SQL/in.txt路径下in.txt的内容为:</p>
+<blockquote>
+<p>   USE menagerie;<br>   SELECT DISTINCT species<br>   FROM pet;</p>
+</blockquote>
+<p>批处理模式的输出为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">shell&gt; mysql -u uesr -p &lt;C:/SQL/in.txt</div><div class="line">Enter password: ********</div><div class="line">species</div><div class="line">bird</div><div class="line">cat</div><div class="line">dog</div><div class="line">hamster</div><div class="line">snake</div></pre></td></tr></table></figure>
+<p>交互式的输出为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SELECT DISTINCT species FROM pet;</div><div class="line">+—————————+</div><div class="line">| species |</div><div class="line">+—————————+</div><div class="line">| bird    |</div><div class="line">| cat     |</div><div class="line">| dog     |</div><div class="line">| hamster |</div><div class="line">| snake   |</div><div class="line">+—————————+</div></pre></td></tr></table></figure>
+<p>如果想让批处理模式下的输出形式像交互式那样,使用<code>-t</code>选项,输出脚本中被执行的命令使用<code>-vvv</code>选项.</p>
+<p>你也可以通过<code>source</code>,<code>\.</code>命令使用脚本:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql&gt; source filename;</div><div class="line">mysql&gt; \. filename</div></pre></td></tr></table></figure>
+<p>####英文原文：</p>
+<p><a href="http://dev.mysql.com/doc/refman/5.6/en/batch-mode.html" target="_blank" rel="external">Using mysql in Batch Mode</a></p>
+</div></article></div></main><footer><div class="paginator"><a href="/java-web-localhost/" class="prev">上一篇</a><a href="/getting-information/" class="next">下一篇</a></div><div class="copyright"><p>© 2014 - 2017 <a href="https://g.hijkl.mn">Jemoii</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 正则表达式笔记（一） · Jemoii's Blog</title><meta name="description" content="正则表达式笔记（一） - Jemoii"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://g.hijkl.mn/atom.xml" title="Jemoii's Blog"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://github.com/jemoii" target="_blank" class="nav-list-link">GITHUB</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">正则表达式笔记（一）</h1><div class="post-info">2015年5月24日</div><div class="post-content"><ul>
+<li>正则表达式是大小写敏感的</li>
+</ul>
+<blockquote>
+<p>Hello<br><br><code>Hello</code>, world!<br><br>hello, world!</p>
+</blockquote>
+<ul>
+<li>空格、缩进或换行都会影响匹配结果</li>
+</ul>
+<blockquote>
+<p>Hello, world!<br><br><code>Hello, world!</code><br><br>Hello,world!</p>
+</blockquote>
+<ul>
+<li>^和$</li>
+</ul>
+<blockquote>
+<p>^who<br><br><code>who</code> is who<br><br>who$<br><br>who is <code>who</code></p>
+</blockquote>
+<ul>
+<li>^、$和\需要转义</li>
+</ul>
+<blockquote>
+<p>^$<br><br>$12$ \\-\ $25$<br><br>\$<br><br><code>$</code>12<code>$</code> \\-\ <code>$</code>25<code>$</code><br><br>\$$<br><br>$12$ \\-\ $25<code>$</code><br><br>\\\\<br><br>$12$ <code>\</code>-<code>\</code> $25$</p>
+</blockquote>
+<ul>
+<li><code>.</code>匹配任意一个字符</li>
+</ul>
+<blockquote>
+<p>.<br><br><code>R</code>egular expressions are powerful!!!<br><br>……<br><br><code>Regula</code>r expressions are powerful!!!</p>
+</blockquote>
+<ul>
+<li><code>.</code>同样需要转义</li>
+</ul>
+<blockquote>
+<p>.<br><br><code>O</code>.K.<br><br>\\.<br><br>O<code>.</code>K<code>.</code><br><br>\\..\\.<br><br>O<code>.K.</code></p>
+</blockquote>
+<ul>
+<li>一系列字符被[]包含</li>
+</ul>
+<blockquote>
+<p>[oyu]<br><br>H<code>o</code>w d<code>o</code> <code>you</code> d<code>o</code>?<br><br>[dH].<br><br><code>Ho</code>w <code>do</code> you <code>do</code>?<br><br>[owy][yow]<br><br>H<code>ow</code> do <code>yo</code>u do?</p>
+</blockquote>
+<ul>
+<li><p>[C-K]等价于[CDEFGHIJK]，[C-Ka-d2-6]等价于[CDEFGHIJKabcd23456]</p>
+</li>
+<li><p>[^CDghi45]与[CDghi45]匹配方式相反，[^W-Z]与[W-Z]匹配方式相反</p>
+</li>
+<li><p>一系列字符串被()包含，被|分隔</p>
+</li>
+</ul>
+<blockquote>
+<p>(on|ues|rida)<br><br>M<code>on</code>day T<code>ues</code>day F<code>rida</code>y<br><br>(Mon|Tues|Fri)day<br><br><code>Monday</code> <code>Tuesday</code> <code>Friday</code><br><br>..(id|esd|nd)ay<br><br><code>Monday</code> <code>Tuesday</code> <code>Friday</code></p>
+</blockquote>
+<p>#####参考资料</p>
+<p><a href="http://www.zvon.org/comp/r/tut-Regexp.html#Pages~Contents" target="_blank" rel="external">Regular Expressions Tutorial</a></p>
+</div></article></div></main><footer><div class="paginator"><a href="/annotation-for-hibernate-first-application/" class="prev">上一篇</a><a href="/annotation-for-struts2-helloworld/" class="next">下一篇</a></div><div class="copyright"><p>© 2014 - 2017 <a href="https://g.hijkl.mn">Jemoii</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
